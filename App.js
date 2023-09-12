@@ -1,20 +1,89 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
+import Notas from './components/Notas';
+import AddNota from './components/AddNota';
+import DeletarNota from './components/DeletarNota';
+import EditarNota from './components/EditarNota';
+import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BemVindo from './components/BemVindo';
+import Tutorial from './components/Tutorial';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  const [nota, setNota] = useState('');
+  const [notas, setNotas] = useState([]);
+  const [moverParaLixeira, setMoverParaLixeira] = useState([]);
+
+  function handleNota() {
+    const newNota = {
+      text: nota,
+      data: new Date().toLocaleString(),
+    };
+    const newNotas = [newNota, ...notas];
+    setNotas(newNotas);
+    setNota('');
+
+    AsyncStorage.setItem('storedNotas', JSON.stringify(newNotas)).then(() => {
+      setNotas(newNotas);
+    }).catch(error => console.log(error))
+  }
+
+  useEffect(() => {
+    carregarNotas();
+  }, []);
+
+  const carregarNotas = () => {
+    AsyncStorage.getItem('storedNotas').then(data => {
+      if(data !== null) {
+        setNotas(JSON.parse(data));
+      }
+    }).catch((error) => console.log(error))
+
+    AsyncStorage.getItem('deletarNota').then(data => {
+      if(data !== null) {
+        setMoverParaLixeira(JSON.parse(data));
+      }
+    }).catch((error) => console.log(error))
+
+    AsyncStorage.getItem('data');
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='BemVindo'>
+          {props => <BemVindo />}
+        </Stack.Screen>
+
+        <Stack.Screen name='Notas'>
+          {props => <Notas {...props} moverParaLixeira={moverParaLixeira} setMoverParaLixeira={setMoverParaLixeira} notas={notas} setNotas={setNotas} nota={nota} setNota={setNota} />}
+        </Stack.Screen>
+
+        <Stack.Screen name='AddNota'>
+          {props => <AddNota {...props} nota={nota} setNota={setNota} handleNota={handleNota} /> }
+        </Stack.Screen>
+
+        <Stack.Screen name="DeletarNota">
+          {props => <DeletarNota {...props} moverParaLixeira={moverParaLixeira} setMoverParaLixeira={setMoverParaLixeira} notas={notas} setNotas={setNotas} />}
+        </Stack.Screen>
+
+        <Stack.Screen name="EditarNota">
+          {props => <EditarNota {...props} notas={notas} setNotas={setNotas} />}
+        </Stack.Screen>
+
+        <Stack.Screen name="Tutorial">
+          {props => <Tutorial {...props} moverParaLixeira={moverParaLixeira} setMoverParaLixeira={setMoverParaLixeira} notas={notas} setNotas={setNotas} nota={nota} setNota={setNota}/>}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+//Set-ExecutionPolicy RemoteSigned
+//npm install -g expo-cli
+//storyset é o site de imagem vector bonitinha
