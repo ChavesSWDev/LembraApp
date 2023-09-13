@@ -10,6 +10,7 @@ import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BemVindo from './components/BemVindo';
 import Tutorial from './components/Tutorial';
+import CadastroInicial from './components/CadastroInicial';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,10 @@ export default function App() {
           {props => <BemVindo />}
         </Stack.Screen>
 
+        <Stack.Screen name="Tutorial">
+          {props => <Tutorial {...props} moverParaLixeira={moverParaLixeira} setMoverParaLixeira={setMoverParaLixeira} notas={notas} setNotas={setNotas} nota={nota} setNota={setNota}/>}
+        </Stack.Screen>
+
         <Stack.Screen name='Notas'>
           {props => <Notas {...props} moverParaLixeira={moverParaLixeira} setMoverParaLixeira={setMoverParaLixeira} notas={notas} setNotas={setNotas} nota={nota} setNota={setNota} />}
         </Stack.Screen>
@@ -76,9 +81,11 @@ export default function App() {
           {props => <EditarNota {...props} notas={notas} setNotas={setNotas} />}
         </Stack.Screen>
 
-        <Stack.Screen name="Tutorial">
-          {props => <Tutorial {...props} moverParaLixeira={moverParaLixeira} setMoverParaLixeira={setMoverParaLixeira} notas={notas} setNotas={setNotas} nota={nota} setNota={setNota}/>}
+        <Stack.Screen name="CadastroInicial">
+          {props => <CadastroInicial/>}
         </Stack.Screen>
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -87,3 +94,4 @@ export default function App() {
 //Set-ExecutionPolicy RemoteSigned
 //npm install -g expo-cli
 //storyset é o site de imagem vector bonitinha
+// tutorial bacana do git https://balta.io/blog/git-github-primeiros-passos

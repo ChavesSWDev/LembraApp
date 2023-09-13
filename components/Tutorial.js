@@ -12,16 +12,16 @@ const Tutorial = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showConfirmation, setShowConfirmation] = useState(false); // Estado para controlar a exibição da confirmação
     const images = [
-        require("../assets/Tutorial1.png"),
-        require("../assets/Tutorial2.png"), 
-        require("../assets/Tutorial3.png"), 
-        require("../assets/Tutorial4.png"),
-        require("../assets/Tutorial5.png"),
-        require("../assets/Tutorial6.png"),
-        require("../assets/Tutorial7.png"),
-        require("../assets/Tutorial8.png"),
-        require("../assets/Tutorial9.png"),
-        require("../assets/BemVindo4.png"),
+        require("../assets/Imagens/Tutorial/Tutorial1.png"),
+        require("../assets/Imagens/Tutorial/Tutorial2.png"), 
+        require("../assets/Imagens/Tutorial/Tutorial3.png"), 
+        require("../assets/Imagens/Tutorial/Tutorial4.png"),
+        require("../assets/Imagens/Tutorial/Tutorial5.png"),
+        require("../assets/Imagens/Tutorial/Tutorial6.png"),
+        require("../assets/Imagens/Tutorial/Tutorial7.png"),
+        require("../assets/Imagens/Tutorial/Tutorial8.png"),
+        require("../assets/Imagens/Tutorial/Tutorial9.png"),
+        require("../assets/Imagens/BoasVindas/BemVindo4.png"),
     ];
     const texts = [
         "Nesse botão, você irá adicionar um novo agendamento!", 
@@ -57,10 +57,10 @@ const Tutorial = () => {
     const handleConfirmation = (choice) => {
         if (choice === "SIM") {
             // Navegar para a próxima tela de tutorial ou fazer ação correspondente
-            navigation.navigate('Notas');
+            navigation.navigate('CadastroInicial');
         } else {
             // Navegar para a tela 'Notas' quando escolher "NÃO"
-            navigation.navigate('Notas'); 
+            navigation.navigate('CadastroInicial'); 
         }
     };
 
