@@ -3,6 +3,43 @@ import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'reac
 import ConnectBanco from './BancoLembraAi';
 const db = SQLite.openDatabase('BancoLembraAi.db');
 
+export function SeuComponente() {
+    const [dados, setDados] = useState({
+      Nome: '',
+      CNPJ: '',
+      Servicos: '',
+      Logotipo: '',
+    });
+  
+    useEffect(() => {
+      // Função para buscar os dados do banco de dados
+      const buscarDados = () => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            'SELECT * FROM Estabelecimento',
+            [],
+            (_, resultado) => {
+              if (resultado.rows.length > 0) {
+                // Supondo que você deseja apenas o primeiro registro encontrado
+                const registro = resultado.rows.item(0);
+                setDados({
+                  Nome: registro.Nome,
+                  CNPJ: registro.CNPJ.toString(),
+                  Servicos: registro.Servicos,
+                  Logotipo: registro.Logotipo,
+                });
+              }
+            },
+            (_, erro) => {
+              console.error('Erro ao buscar dados:', erro);
+            }
+          );
+        });
+      };
+  
+      // Chame a função para buscar os dados quando o componente for montado
+      buscarDados();
+    }, []);
 
 const MainMenu = () => {
     const [isNameEditing, setNameEditing] = useState(false);
@@ -175,4 +212,5 @@ const styles = StyleSheet.create({
         marginLeft: 55
     },
 });
+}
 export default MainMenu;
